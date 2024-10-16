@@ -1,0 +1,14 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
+        <p class="card-text">Phone: {{ profile.phone_number }}</p>
+        <p class="card-text">WhatsApp: <a href="{{ profile.whatsapp_link }}">{{ profile.whatsapp_link }}</a></p>
+        <p class="card-text">Telegram: <a href="{{ profile.telegram_link }}">{{ profile.telegram_link }}</a></p>
+        <p class="card-text">TikTok: <a href="{{ profile.tiktok_link }}">{{ profile.tiktok_link }}</a></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+  <div class="container mt-5">
+    <h2>Редактирование профиля</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ profile_form.as_p }}
+      <button type="submit" class="btn btn-primary">Сохранить профиль</button>
+    </form>
+
+    <h3 class="mt-5">Социальные сети</h3>
+    <ul>
+      {% for link in social_links %}
+        <li>
+          <i class="{{ link.platform.platform_icon }}"></i> <a href="{{ link.url }}" target="_blank">{{ link.platform.platform_name }}</a>
+          <a href="{% url 'delete_social_link' link.id %}" class="btn btn-danger btn-sm">Удалить</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h4>Добавить новую социальную сеть</h4>
+    <form method="post">
+      {% csrf_token %}
+      {{ social_link_form.as_p }}
+      <button type="submit" class="btn btn-success">Добавить социальную сеть</button>
+    </form>
+  </div>
+{% endblock %}
