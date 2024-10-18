@@ -1,11 +1,11 @@
 {% extends 'base_generic.html' %}
 {% block content %}
   <div class="container mt-5">
-    <h2>Edit Profile</h2>
+    <h2>Изменить профиль</h2>
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-success">Save</button>
+      <button type="submit" class="btn btn-success">Сохранить</button>
     </form>
   </div>
 {% endblock %}
