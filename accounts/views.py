@@ -36,3 +36,5 @@ def edit_profile(request):
 def profile_view(request, user_id):
     profile = Profile.objects.get(user__id=user_id)
     return render(request, 'profile/business_card.html', {'profile': profile})
+
+

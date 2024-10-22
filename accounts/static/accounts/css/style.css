@@ -363,23 +363,33 @@ input[type="url"]:focus {
   overflow: hidden; /* Обрезка содержимого с закругленными углами */
 }
 
+.profile{
+  display: flex;
+  justify-content: left;
+  max-width: 430px;
+}
+
 .card {
   background: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон карточки */
   border: none; /* Убираем стандартную рамку */
   border-radius: 0; /* Убираем закругление для карточки */
 }
 
-.card-body {
-  padding: 20px; /* Паддинг внутри карточки */
-}
-
 .card-title {
   font-family: "Montserrat", sans-serif; /* Шрифт заголовка */
-  font-size: 24px; /* Размер заголовка */
+  font-size: 20px; /* Размер заголовка */
   font-weight: 700; /* Жирный текст */
   color: #333; /* Цвет текста заголовка */
   margin-bottom: 15px; /* Отступ снизу */
-  text-align: center; /* Центрирование заголовка */
+}
+
+.card-number{
+    color: rgb(128, 128, 128);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0%;
+    text-align: left;
+    margin-bottom: 0;
 }
 
 .card-text {
@@ -395,6 +405,17 @@ input[type="url"]:focus {
   padding-left: 20px;
   transition: height 0.3s ease;
   overflow: hidden;
+}
+
+.hero__avatar {
+  max-width: 80px;
+  max-height: 80px;
+  margin-right: 27px;
+}
+
+.social_networks{
+  margin-top: 45px;
+  max-width: 400px;
 }
 
 .social-link {
@@ -429,19 +450,19 @@ input[type="url"]:focus {
   text-align: left; /* Выравнивание текста по левому краю */
 }
 
-@media (max-width: 480px) {
-  .container {
-    width: 90%; /* Ширина контейнера на маленьких экранах */
-  }
 
-  .card-title {
-    font-size: 20px; /* Уменьшаем размер заголовка */
-  }
-
-  .card-text {
-    font-size: 12px; /* Уменьшаем размер текста */
-  }
+.toggle-all {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(79, 175, 200, 1);
+  color: #fff;
+  border-radius: 30px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
+
 
 .card-text {
   margin-bottom: 15px; /* Отступ между текстами */
@@ -466,3 +487,258 @@ input[type="url"]:focus {
   margin-right: 8px; /* Отступ между иконкой и текстом */
   font-size: 20px; /* Размер иконки */
 }
+
+.buttons-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.buttons-wrapper.show {
+  transition: max-height 0.5s ease-in;
+}
+
+.button {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(79, 175, 200, 1);
+  border-radius: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.button i {
+  font-size: 24px;
+  margin-right: 15px;
+  color: #fff;
+  width: 21px;
+}
+
+.button a {
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: left;
+  display: block;
+}
+
+.button.expanded {
+  height: 120px;
+}
+
+
+
+
+
+
+
+/* header */
+
+
+.header a{
+  color: #000;
+}
+
+.header__back {
+  max-width: 100%;
+  width: 430px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  
+}
+
+.header__back img {
+  border-radius: 0 0 32px 32px;
+}
+
+#copyText {
+  font-size: 24px;
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  user-select: none;
+  padding-left: 30px;
+}
+
+#copyText:hover {
+  text-decoration: underline;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding: 0 20px;
+  margin-top: 9rem;
+  color: #000;
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu__fist-child {
+  display: flex;
+}
+
+.menu__second-child {
+  display: flex;
+  justify-content: space-between;
+  width: 80px;
+}
+
+.menu__upload a {
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100px;
+}
+
+.menu__upload img {
+  width: 16px;
+}
+
+.menu__qr img,
+.menu__param img {
+  width: 20px;
+  height: 20px;
+}
+
+.registerheader p {
+  position: relative;
+  padding-left: 30px;
+  font-size: 30px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.registerheader__back {
+  max-width: 100%;
+  width: 530px;
+  height: 1px;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.registerheader__back img {
+  border-radius: 0 0 32px 32px;
+  height: 230px;
+}
+
+.registerheader__registration-button {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 0 30px;
+}
+
+.registerheader__registration-button a {
+  text-align: center;
+  padding: 20px 0;
+  border-radius: 30px;
+  flex-basis: 0;
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+.registerheader__register {
+  font-weight: 700;
+  background-color: #635ce8;
+}
+
+.registerheader__add {
+  background-color: #333;
+  opacity: 0.6;
+}
+
+
+
+
+
+/* FOOTER */
+
+.footer {
+  margin-top: 87px;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  background: rgb(255, 255, 255);
+}
+
+.footer__title {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: black;
+}
+
+.footer__link {
+
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+.footer__link a {
+  color: rgb(72, 63, 245);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+
+.registerfooter__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  background: rgb(255, 255, 255);
+}
+
+.registerfooter__title {
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: black;
+}
+
+.registerfooter__link {
+  color: rgb(72, 63, 245);
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+

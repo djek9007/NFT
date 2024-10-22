@@ -1,14 +1,50 @@
-{% extends 'base_generic.html' %}
+{% extends 'base_generic-second.html' %}
 {% block content %}
   <div class="container mt-5">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
-        <p class="card-text">Phone: {{ profile.phone_number }}</p>
-        <p class="card-text">WhatsApp: <a href="{{ profile.whatsapp_link }}">{{ profile.whatsapp_link }}</a></p>
-        <p class="card-text">Telegram: <a href="{{ profile.telegram_link }}">{{ profile.telegram_link }}</a></p>
-        <p class="card-text">TikTok: <a href="{{ profile.tiktok_link }}">{{ profile.tiktok_link }}</a></p>
+        <div class="profile">
+
+          <div class="hero__avatar">
+            <div class="hero__avatar-border">
+               <img src="/public/img/hero/avatar.png" alt="">
+            </div>          
+          </div>
+
+          <div class="contacts">          
+            <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
+            <h5><a href="tel:{{ profile.email_link }}"class="card-number">Тел:{{ profile.phone_number }}</a></h5>
+            <h5><a href="{{ profile.email_link }}" class="card-number">Почта:{{ profile.email_link }}</a></h5>
+          </div>
+        </div>
+
+        <div class="social_networks">
+          <button class="toggle-all" onclick="toggleAll()">СОЦИАЛЬНЫЕ СЕТИ</button>
+          <div class="buttons-wrapper">
+            <div class="button" onclick="toggleExpand(this)">
+              <i class="fab fa-whatsapp"></i>
+              <a href="{{ profile.whatsapp_link }}" target="_blank">НАПИСАТЬ НА WHATSAPP <br> {{ profile.phone_number }}</a>
+            </div>
+            <div class="button" onclick="toggleExpand(this)">
+              <i class="fas fa-phone"></i>
+              <a href="tel:{{ profile.phone_number }}">ПОЗВОНИТЬ ПО НОМЕРУ <br> {{ profile.phone_number }}</a>
+            </div>
+            <div class="button" onclick="toggleExpand(this)">
+              <i class="fab fa-telegram-plane"></i>
+              <a href="{{ profile.telegram_link }}" target="_blank">ТЕЛЕГРАММ <br> @OlzhasKarimov</a>
+            </div>
+            <div class="button" onclick="toggleExpand(this)">
+              <i class="fab fa-tiktok"></i>
+              <a href="{{ profile.tiktok_link }}" target="_blank">TIK TOK <br> @etag.store.kz</a>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
+
+
+
+
 {% endblock %}
