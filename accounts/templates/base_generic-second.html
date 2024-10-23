@@ -13,36 +13,18 @@
 </head>
 
 <body>
-   <div class="header">
-      <div class="header__container">
-         <div class="header__back">
-            <img src="/accounts/templates/img/background.jpg" alt="">
-         </div>
-
-         <div class="header__menu menu">
-            <!-- Кнопка Сохранить с возможностью скачивания файла -->
-            <div class="menu__first-child">
-               <div class="menu__upload">
-                  <a href="/vcard.vcf" download="vcard.vcf">
-                     <img src="/public/img/header/downloaded.png" alt="">
-                     <p>Сохранить</p>
-                  </a>
-               </div>
-            </div>
-
-            <div class="menu__second-child">
-               <a href="src/html/pages/qrpage.html" id="menuQrLink">
-                  <img src="img/header/qrcode.png" alt="QR Code" id="qrImage">
-               </a>
-               <a href="/src/html/pages/regirster.html" class="menu__param">
-                  <img src="{% static '/accounts/templates/img/settings.png' %}" alt="">
-               </a>
-            </div>
-         </div>
-
-      </div>
-   </div>
-
+   
+   <div class="profile">
+      <!-- Отображение QR-кода, если он есть -->
+      {% if profile.qr_code %}
+          <div class="qr-code">
+              <img src="{{ profile.qr_code.url }}" alt="QR Code" style="width:150px;height:150px;">
+          </div>
+      {% else %}
+          <p>QR-код не сгенерирован</p>
+      {% endif %}
+  </div>
+  
 
    <div class="container">
       {% block content %}
@@ -53,7 +35,7 @@
    <section class="footer" id="footer">
       <div class="footer__container">
          <div class="footer__title">
-            <p> © 2020-2024 Будущее нетворкинга</p>
+            <p> © 2020-2024 Будущее нетворкинга</p>
          </div>
          <div class="footer__link">
             <a href="*">Где купить?</a>

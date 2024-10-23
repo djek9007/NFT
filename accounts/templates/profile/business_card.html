@@ -11,10 +11,19 @@
             </div>          
           </div>
 
+          
           <div class="contacts">          
             <h5 class="card-title">{{ profile.first_name }} {{ profile.last_name }}</h5>
+            {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Аватар пользователя" style="width:150px;height:150px;">
+            {% else %}
+                <p>Аватар отсутствует</p>
+            {% endif %}
+
             <h5><a href="tel:{{ profile.email_link }}"class="card-number">Тел:{{ profile.phone_number }}</a></h5>
-            <h5><a href="{{ profile.email_link }}" class="card-number">Почта:{{ profile.email_link }}</a></h5>
+            <h5><a href="mailto:{{ profile.email }}" class="card-number">Почта: {{ profile.email }}</a></h5>
+
+
           </div>
         </div>
 

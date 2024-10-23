@@ -1,11 +1,19 @@
 {% extends 'base-generic-third.html' %}
+
 {% block content %}
   <div class="container mt-5">
     <h2>Изменить профиль</h2>
-    <form method="post">
+    
+    {% if form.instance.avatar %}
+      <img src="{{ form.instance.avatar.url }}" alt="Аватар пользователя" style="width:150px;height:150px;">
+    {% else %}
+      <p>Аватар отсутствует</p>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit" class="btn btn-success">Сохранить</button>
-    </form>
+  </form>  
   </div>
 {% endblock %}
