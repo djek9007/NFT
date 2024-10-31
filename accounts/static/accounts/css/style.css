@@ -350,9 +350,20 @@ input[type="url"] {
   transition: border-color 0.2s ease;
 }
 
+input[type="email"] {
+  width: 100%;
+  padding: 17px 15px;
+  border: 1px solid #eaeaea;
+  border-radius: 17px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
 input[type="url"]:focus {
   border-color: #635ce8;
 }
+
 
 /* hero */
 
@@ -739,6 +750,16 @@ input[type="url"]:focus {
   text-align: center;
   text-decoration-line: underline;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

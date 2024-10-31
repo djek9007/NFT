@@ -37,4 +37,17 @@ def profile_view(request, user_id):
     profile = Profile.objects.get(user__id=user_id)
     return render(request, 'profile/business_card.html', {'profile': profile})
 
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+
+class CustomLoginView(LoginView):
+    template_name = 'login.html'  # Укажите имя вашего шаблона для входа
+    success_url = reverse_lazy('business_card')  # Укажите имя URL для business_card.html
+
+class BusinessCardView(TemplateView):
+    template_name = 'business_card.html'  # Укажите путь к вашему шаблону
+    
+
+
 

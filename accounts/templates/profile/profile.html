@@ -10,6 +10,7 @@
       <p>Аватар отсутствует</p>
     {% endif %}
     
+    
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}

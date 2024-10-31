@@ -1,0 +1,750 @@
+* {
+  max-width: 530px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: toRem(20);
+  margin: 0;
+  padding: 0;
+}
+
+/* CSS Reset */
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+    Убираем внутренние отступы слева тегам списков,
+    у которых есть атрибут class
+   */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+    Убираем внешние отступы body и двум другим тегам,
+    у которых есть атрибут class
+   */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+    Убираем внешние отступы вертикали нужным тегам,
+    у которых есть атрибут class
+   */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+    Убираем стандартный маркер маркированному списку,
+    у которого есть атрибут class
+   */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+    Обнуляем вертикальные внешние отступы параграфа,
+    объявляем локальную переменную для внешнего отступа вниз,
+    чтобы избежать взаимодействие с более сложным селектором
+   */
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+    Внешний отступ вниз для параграфа без атрибута class,
+    который расположен не последним среди своих соседних элементов
+   */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+    Упрощаем работу с изображениями
+   */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/**
+    Наследуем свойства шрифт для полей ввода
+   */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+html {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  height: 100%;
+}
+
+/**
+    Плавный скролл
+   */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+      Пригодится в большинстве ситуаций
+      (когда, например, нужно будет "прижать" футер к низу сайта)
+     */
+  min-height: 100%;
+  /**
+      Унифицированный интерлиньяж
+     */
+  line-height: 1.5;
+}
+
+/**
+    Приводим к единому цвету svg-элементы
+   */
+svg *[fill] {
+  fill: currentColor;
+}
+svg *[stroke] {
+  stroke: currentColor;
+}
+
+/**
+    Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+   */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+    Удаляем все анимации и переходы для людей,
+    которые предпочитают их не использовать
+   */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* CSS Reset */
+
+
+
+.navbar-custom {
+  position: relative;
+  padding: 30px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8), rgba(36, 36, 36, 0.9));
+  border-radius: 0 0 32px 32px;
+  color: #fff;
+  text-align: center;
+  text-align: left;
+}
+
+.navbar__back {
+  max-width: 100%;
+  width: 530px;
+  height: 230px;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.navbar__back img {
+  border-radius: 0 0 32px 32px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#copyText {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #fff;
+  padding-left: 20px;
+
+}
+
+.navbar__greeting {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  padding-left: 20px;
+}
+
+.navbar__buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.navbar__buttons a {
+  text-align: center;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.navbar__button-register {
+  background-color: #635ce8;
+}
+
+.navbar__button-register:hover {
+  background-color: #514bd1;
+}
+
+.navbar__button-login {
+  background-color: #635ce8;
+}
+
+.navbar__button-login:hover {
+  background-color: #514bd1;
+}
+
+/* login */
+
+.container {
+  padding: 0 10px;
+}
+
+/* Стиль контейнера формы */
+.add-form {
+  margin-top: 67px;
+  width: 100%;
+  max-width: 530px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Стиль каждого поля формы */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 14px;
+  margin-bottom: 8px;
+  display: block;
+  color: #333;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 17px 15px;
+  border: 1px solid #eaeaea;
+  border-radius: 17px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: #635ce8;
+}
+
+/* Стиль кнопки */
+.btn {
+  max-width: 470px;
+  margin: 20px auto;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  background: #635ce8;
+  border: none;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  height: 60px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Стиль списка сообщений об ошибках */
+ul {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+li {
+  font-size: 14px;
+  color: #8b8b8b;
+}
+
+/* Подсказки */
+.helptext {
+  font-size: 12px;
+  color: #8b8b8b;
+  display: block;
+  margin-top: 5px;
+}
+
+input[type="url"] {
+  width: 100%;
+  padding: 17px 15px;
+  border: 1px solid #eaeaea;
+  border-radius: 17px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+input[type="url"]:focus {
+  border-color: #635ce8;
+}
+
+/* hero */
+
+.container {
+  margin: 0 auto;
+  margin-top: 45px;
+  border-radius: 15px; /* Закругленные углы */
+  overflow: hidden; /* Обрезка содержимого с закругленными углами */
+}
+
+.profile{
+  display: flex;
+  justify-content: left;
+  max-width: 430px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон карточки */
+  border: none; /* Убираем стандартную рамку */
+  border-radius: 0; /* Убираем закругление для карточки */
+}
+
+.card-title {
+  font-family: "Montserrat", sans-serif; /* Шрифт заголовка */
+  font-size: 20px; /* Размер заголовка */
+  font-weight: 700; /* Жирный текст */
+  color: #333; /* Цвет текста заголовка */
+  margin-bottom: 15px; /* Отступ снизу */
+}
+
+.card-number{
+    color: rgb(128, 128, 128);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0%;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.card-text {
+  color: #fff;
+  width: 100%;
+  height: 60px;
+  background-color: #4fafc8;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.hero__avatar {
+  max-width: 80px;
+  max-height: 80px;
+  margin-right: 27px;
+}
+
+.social_networks{
+  margin-top: 45px;
+  max-width: 400px;
+}
+
+.social-link {
+  width: 100%; /* Занимает 100% ширины */
+  height: 60px; /* Высота блока */
+  background-color: rgba(79, 175, 200, 1); /* Цвет фона */
+  border-radius: 30px; /* Закругление углов */
+  margin-bottom: 10px; /* Отступ снизу */
+  display: flex; /* Используем flex для выравнивания содержимого */
+  align-items: center; /* Вертикальное центрирование */
+  padding-left: 20px; /* Отступ слева */
+  transition: height 0.3s ease; /* Плавный переход при наведении */
+  overflow: hidden; /* Скрываем лишнее содержимое */
+  text-decoration: none; /* Убираем подчеркивание */
+  color: #fff; /* Цвет текста */
+}
+
+.social-link:hover {
+  background-color: #3b5998; /* Цвет фона при наведении */
+}
+
+.social-link i {
+  font-size: 24px; /* Размер иконки */
+  margin-right: 15px; /* Отступ между иконкой и текстом */
+}
+
+.social-link span {
+  font-family: "Montserrat", sans-serif; /* Шрифт для текста */
+  font-size: 11px; /* Размер шрифта */
+  font-weight: 400; /* Начертание шрифта */
+  line-height: 13.41px; /* Межстрочный интервал */
+  text-align: left; /* Выравнивание текста по левому краю */
+}
+
+
+.toggle-all {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(79, 175, 200, 1);
+  color: #fff;
+  border-radius: 30px;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+
+.card-text {
+  margin-bottom: 15px; /* Отступ между текстами */
+}
+
+.card-text .social-link {
+  display: inline-flex; /* Выравнивание текста и иконки по центру */
+  align-items: center; /* Вертикальное центрирование */
+  background-color: rgba(79, 175, 200, 1); /* Цвет фона */
+  color: #fff; /* Цвет текста */
+  border-radius: 30px; /* Закругление углов */
+  padding: 10px 15px; /* Отступы */
+  text-decoration: none; /* Убираем подчеркивание */
+  transition: background-color 0.3s; /* Плавный переход при наведении */
+}
+
+.card-text .social-link:hover {
+  background-color: rgba(60, 150, 170, 1); /* Цвет фона при наведении */
+}
+
+.card-text .social-link i {
+  margin-right: 8px; /* Отступ между иконкой и текстом */
+  font-size: 20px; /* Размер иконки */
+}
+
+.buttons-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.buttons-wrapper.show {
+  transition: max-height 0.5s ease-in;
+}
+
+.button {
+  width: 100%;
+  height: 60px;
+  background-color: rgba(79, 175, 200, 1);
+  border-radius: 30px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 20px;
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
+
+.button i {
+  font-size: 24px;
+  margin-right: 15px;
+  color: #fff;
+  width: 21px;
+}
+
+.button a {
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: left;
+  display: block;
+}
+
+.button.expanded {
+  height: 120px;
+}
+
+
+
+
+
+
+
+/* header */
+
+
+.header a{
+  color: #000;
+}
+
+.header__back {
+  max-width: 100%;
+  width: 430px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  
+}
+
+.header__back img {
+  border-radius: 0 0 32px 32px;
+}
+
+#copyText {
+  font-size: 24px;
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  user-select: none;
+  padding-left: 30px;
+}
+
+#copyText:hover {
+  text-decoration: underline;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  padding: 0 20px;
+  margin-top: 9rem;
+  color: #000;
+  font-size: 14px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.menu__fist-child {
+  display: flex;
+}
+
+.menu__second-child {
+  display: flex;
+  justify-content: space-between;
+  width: 80px;
+}
+
+.menu__upload a {
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100px;
+}
+
+.menu__upload img {
+  width: 16px;
+}
+
+.menu__qr img,
+.menu__param img {
+  width: 20px;
+  height: 20px;
+}
+
+.registerheader p {
+  position: relative;
+  padding-left: 30px;
+  font-size: 30px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.registerheader__back {
+  max-width: 100%;
+  width: 530px;
+  height: 1px;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.registerheader__back img {
+  border-radius: 0 0 32px 32px;
+  height: 230px;
+}
+
+.registerheader__registration-button {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding: 0 30px;
+}
+
+.registerheader__registration-button a {
+  text-align: center;
+  padding: 20px 0;
+  border-radius: 30px;
+  flex-basis: 0;
+  flex-grow: 1;
+  font-size: 14px;
+}
+
+.registerheader__register {
+  font-weight: 700;
+  background-color: #635ce8;
+}
+
+.registerheader__add {
+  background-color: #333;
+  opacity: 0.6;
+}
+
+
+
+
+
+/* FOOTER */
+
+.footer {
+  margin-top: 87px;
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  background: rgb(255, 255, 255);
+}
+
+.footer__title {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: black;
+}
+
+.footer__link {
+
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+.footer__link a {
+  color: rgb(72, 63, 245);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+
+.registerfooter__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  background: rgb(255, 255, 255);
+}
+
+.registerfooter__title {
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  color: black;
+}
+
+.registerfooter__link {
+  color: rgb(72, 63, 245);
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+  text-decoration-line: underline;
+}
+
+
+
+
+
+
+
+
+

@@ -95,6 +95,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Это папка, где будут собираться статические файлы
 
 
+STATICFILES_DIRS = [BASE_DIR / 'accounts/static']
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
