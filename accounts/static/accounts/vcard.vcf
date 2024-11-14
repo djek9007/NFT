@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:{last_name};{first_name};;
+FN:{first_name} {last_name}
+EMAIL:{email}
+TEL;TYPE=CELL:{phone_number}
+PHOTO;VALUE=URI:{avatar_url}
+X-WHATSAPP:{whatsapp_link}
+X-TELEGRAM:{telegram_link}
+X-TIKTOK:{tiktok_link}
+END:VCARD

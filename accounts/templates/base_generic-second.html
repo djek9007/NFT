@@ -13,7 +13,48 @@
 </head>
 
 <body>
-   
+
+   {% load static %}
+
+<div class="header">
+   <div class="ProfileLayout_avatar__U9cVZ">
+      <div class="AvatarBlock_AvatarBlock__nRrQw">
+         <div class="AvatarBlock_AvatarBlock_preview__ZOy6_"><img alt="Avatar"
+               src="{% static 'accounts/img/gos-gerb.png' %}" width="100" height="100" decoding="async"
+               data-nimg="future" class="" style="color:transparent" /></div>
+      </div>
+   </div>
+   <div class="header__container">
+      <div class="header__back">
+         <img src="{% static 'accounts/img/background.png' %}" alt="">
+         
+      </div>
+
+      <div class="header__menu menu">
+         <!-- Кнопка Сохранить с возможностью скачивания файла -->
+         <div class="menu__first-child">
+            <div class="menu__upload">
+               <a href="{% static 'accounts/vcard.vcf' %}" download="vcard.vcf">
+                  <img src="{% static 'accounts/img/downloaded.png' %}" alt="">
+                  <p> Сохранить</p>
+               </a>
+            </div>
+         </div>
+
+         <div class="menu__second-child">
+            <a href="#" id="menuQrLink">
+               <img src="{% static 'accounts/img/qrcode.png' %}" alt="QR Code" id="qrImage">
+            </a>
+
+            <a href="{% url 'edit_profile' %}" class="menu__param" {% if not request.user == profile.user %} style="display: none;" {% endif %}>
+                <img src="{% static 'accounts/img/settings.png' %}" alt="">
+            </a>
+        </div>
+      </div>
+   </div>
+</div>
+
+
    <div class="profile">
       <!-- Отображение QR-кода, если он есть -->
       {% if profile.qr_code %}
@@ -38,27 +79,49 @@
             <p> © 2020-2024 Будущее нетворкинга</p>
          </div>
          <div class="footer__link">
-            <a href="*">Где купить?</a>
+            <a href="#" onclick="location.reload(); return false;">Где купить?</a>
          </div>
       </div>
    </section>
 
-   <script>
+    <script>
       function toggleAll() {
-        const buttonsWrapper = document.querySelector('.buttons-wrapper');
-        if (buttonsWrapper.classList.contains('show')) {
+        const buttonsWrapper = document.querySelector(".buttons-wrapper");
+        if (buttonsWrapper.classList.contains("show")) {
           buttonsWrapper.style.maxHeight = null;
-          buttonsWrapper.classList.remove('show');
+          buttonsWrapper.classList.remove("show");
         } else {
-          buttonsWrapper.classList.add('show');
+          buttonsWrapper.classList.add("show");
           buttonsWrapper.style.maxHeight = buttonsWrapper.scrollHeight + "px";
         }
       }
-  
 
-  
+
+      document.getElementById('menuQrLink').addEventListener('click', function (event) {
+    event.preventDefault(); // Предотвращаем переход по ссылке
+    const profileElement = document.querySelector('.profile');
+
+    if (profileElement) {
+        if (profileElement.classList.contains('open')) {
+            // Если элемент открыт, скрываем его
+            profileElement.classList.remove('open');
+            // Ждем окончания анимации, прежде чем скрыть элемент полностью
+            setTimeout(() => {
+                profileElement.style.display = 'none';
+            }, 1000); // Время должно совпадать с длительностью анимации
+        } else {
+            // При открытии, сначала показываем элемент
+            profileElement.style.display = 'block';
+            setTimeout(() => {
+                profileElement.classList.add('open');
+            }, 10); // Задержка перед добавлением класса для начала анимации
+        }
+    }
+});
+
+
+
     </script>
-<script src="{% static 'accounts/static/accounts/js/script.js' %}"></script>
-</body>
-
+    <script src="{% static 'accounts/static/accounts/js/script.js' %}"></script>
+  </body>
 </html>

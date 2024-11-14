@@ -1,17 +1,16 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.shortcuts import redirect
-from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from .views import redirect_to_login
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),  # Подключаем стандартные маршруты авторизации
-    path('', lambda request: redirect('login')),  # Перенаправляем главную страницу на логин
+    path('accounts/', include('accounts.urls')),# Подключаем маршруты из приложения accounts
+    path('', redirect_to_login),
 ]
+
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    
-    
-    
-    
-    
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

@@ -1,4 +1,4 @@
-import os
+import os 
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -18,6 +18,10 @@ ALLOWED_HOSTS = []
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+GENERATED_VCARDS_DIR = os.path.join(BASE_DIR, 'static', 'generated_vcards')
+
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,7 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
+    'accounts',  # ваше приложение с профилями
 ]
 
 MIDDLEWARE = [
@@ -92,13 +96,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Это папка, где будут собираться статические файлы
-
-
-STATICFILES_DIRS = [BASE_DIR / 'accounts/static']
-
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = '/accounts/profile/edit/'
-LOGIN_URL = '/accounts/login/'
+
+# Login settings
+LOGIN_REDIRECT_URL = '/profile/'  # Страница, на которую будет перенаправляться пользователь после входа
+LOGIN_URL = '/login/'             # URL для страницы входа
+LOGOUT_REDIRECT_URL = '/login/'    # URL для перенаправления после выхода
+
+

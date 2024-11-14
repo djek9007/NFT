@@ -8,6 +8,6 @@ function toggleAll() {
       buttonsWrapper.style.maxHeight = buttonsWrapper.scrollHeight + "px";
     }
   }
-  
+
 
   

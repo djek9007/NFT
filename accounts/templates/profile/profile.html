@@ -1,20 +1,32 @@
-{% extends 'base-generic-third.html' %}
+{% extends 'base-generic-third.html' %} {% block content %}
+<div class="container mt-5">
+  <h2>Изменить профиль</h2>
 
-{% block content %}
-  <div class="container mt-5">
-    <h2>Изменить профиль</h2>
-    
-    {% if form.instance.avatar %}
-      <img src="{{ form.instance.avatar.url }}" alt="Аватар пользователя" style="width:150px;height:150px;">
-    {% else %}
-      <p>Аватар отсутствует</p>
-    {% endif %}
-    
-    
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-success">Сохранить</button>
-  </form>  
-  </div>
+  {% if form.instance.avatar %}
+  <img
+    src="{{ form.instance.avatar.url }}"
+    alt="Аватар пользователя"
+    style="width: 150px; height: 150px"
+  />
+  {% else %}
+  <p>Аватар отсутствует</p>
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Выводим ошибки формы -->
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for field, errors in form.errors.items %}
+        <li>{{ field }}: {{ errors|join:", " }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %} {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success mt-3">Сохранить</button>
+  </form>
+</div>
 {% endblock %}

@@ -1,60 +1,91 @@
 {% extends 'base_generic-second.html' %}
+
 {% block content %}
   <div class="container mt-5">
     <div class="card">
       <div class="card-body">
-        <div class="profile">
-
-          <div class="hero__avatar">
+        <div class="profile-name">
+          <div class="hero__avatar" {% if not profile.avatar %} style="visibility: hidden;" {% endif %}>
             <div class="hero__avatar-border">
-               <img src="/public/img/hero/avatar.png" alt="">
-            </div>          
-          </div>
-        
-          <div class="contacts">          
-            <div style="display: flex; align-items: center;">
-                {% if profile.avatar %}
-                    <img src="{{ profile.avatar.url }}" alt="Аватар пользователя" style="width: 190px; height: 120px; border-radius: 50%; margin-right: 20px;">
-                {% else %}
-                    <p>Аватар отсутствует</p>
-                {% endif %}
-                <h5 class="card-title" style="margin: 0; font-size: 1.5rem;">{{ profile.first_name }} {{ profile.last_name }}</h5>
+              {% if profile.avatar %}
+                <img src="{{ profile.avatar.url }}" alt="Аватар пользователя" style="width: 190px; height: 120px; margin-right: 20px;">
+              {% else %}
+                <p>Аватар отсутствует</p>
+              {% endif %}
             </div>
-            <h5><a href="tel:{{ profile.email_link }}" class="card-number" style="color: #000; text-decoration: none;">Тел: {{ profile.phone_number }}</a></h5>
-            <h5><a href="mailto:{{ profile.email }}" class="card-number" style="color: #000; text-decoration: none;">Почта: {{ profile.email }}</a></h5>
-            <h4><a href="{% url 'edit_profile' %}" style="color: #000; color: rgb(128, 128, 128);font-size: 13px; text-decoration: none;">Редактировать профиль</a></h4>
+          </div>
 
-        </div>
-        
+          <div class="contacts">
+            <div style="display: flex; align-items: center;">
+              <h5 class="card-title" style="margin: 0; font-size: 1.5rem;">
+                {{ profile.first_name }} {{ profile.last_name }}
+              </h5>
+            </div>
+            <h5>
+              <a href="tel:{{ profile.phone_number }}" class="card-number" style="color: #000; text-decoration: none;">
+                Тел: {{ profile.phone_number }}
+              </a>
+            </h5>
+            <h5>
+              <a href="mailto:{{ profile.email }}" class="card-number" style="color: #000; text-decoration: none;">
+                Почта: {{ profile.email }}
+              </a>
+            </h5>
+            
+            {% if user == profile.user %}
+              <h4>
+                <a href="{% url 'edit_profile' %}" style="color: rgb(128, 128, 128); font-size: 13px; text-decoration: none;">
+                  Редактировать профиль
+                </a>
+              </h4>
+            {% else %}
+              <p></p>
+            {% endif %}
+          </div>
         </div>
 
         <div class="social_networks">
           <button class="toggle-all" onclick="toggleAll()">СОЦИАЛЬНЫЕ СЕТИ</button>
-          <div class="buttons-wrapper">
+          <div class="buttons-wrapper" id="socialButtonsWrapper" style="max-height: 0; overflow: hidden;">
             <div class="button" onclick="toggleExpand(this)">
               <i class="fab fa-whatsapp"></i>
-              <a href="{{ profile.whatsapp_link }}" target="_blank">НАПИСАТЬ НА WHATSAPP <br> </a>
+              <a href="https://wa.me/{{ profile.whatsapp_link }}" target="_blank">НАПИСАТЬ НА WHATSAPP</a>
             </div>
             <div class="button" onclick="toggleExpand(this)">
               <i class="fas fa-phone"></i>
-              <a href="tel:{{ profile.phone_number }}">ПОЗВОНИТЬ ПО НОМЕРУ <br> {{ profile.phone_number }}</a>
+              <a href="tel:{{ profile.phone_number }}">ПОЗВОНИТЬ ПО НОМЕРУ</a>
             </div>
             <div class="button" onclick="toggleExpand(this)">
               <i class="fab fa-telegram-plane"></i>
-              <a href="{{ profile.telegram_link }}" target="_blank">ТЕЛЕГРАММ <br> </a>
+              <a href="https://t.me/{{ profile.telegram_link }}" target="_blank">ТЕЛЕГРАММ</a>
             </div>
             <div class="button" onclick="toggleExpand(this)">
               <i class="fab fa-tiktok"></i>
-              <a href="{{ profile.tiktok_link }}" target="_blank">TIK TOK <br> </a>
+              <a href="https://www.tiktok.com/@{{ profile.tiktok_link }}" target="_blank">TIK TOK</a>
             </div>
           </div>
         </div>
-        
       </div>
+      <a href="{% url 'logout' %}" class="btn btn_logout btn-success btn-danger mt-3" {% if not request.user == profile.user %} style="visibility: hidden;" {% endif %}>Выйти</a>
     </div>
   </div>
 
+  <script>
+    function toggleAll() {
+      const wrapper = document.getElementById('socialButtonsWrapper');
+      if (wrapper.style.maxHeight === '0px' || wrapper.style.maxHeight === '') {
+        wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+      } else {
+        wrapper.style.maxHeight = '0';
+      }
+    }
 
-
-
+    function toggleExpand(element) {
+      const isExpanded = element.classList.contains('expanded');
+      document.querySelectorAll('.button').forEach(btn => btn.classList.remove('expanded'));
+      if (!isExpanded) {
+        element.classList.add('expanded');
+      }
+    }
+  </script>
 {% endblock %}
