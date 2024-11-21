@@ -27,7 +27,7 @@ services:
                python manage.py migrate &&
                gunicorn -b 0.0.0.0:8000 my_project.wsgi:application"
     ports:
-      - "8000:8000"
+      - "8080:8000"
 
   nginx:
     build:
