@@ -21,6 +21,7 @@ RUN pip install --upgrade pip
 WORKDIR /root/projects/NFT
 RUN chown -R nftuser:nftuser /root/projects/NFT
 
+
 # Создание директорий для статики и медиа
 RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
     chmod -R 755 /root/projects/var/www/nft

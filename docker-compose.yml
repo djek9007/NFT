@@ -4,12 +4,15 @@ services:
   postgres:
     image: postgres:15
     container_name: nft_postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    env_file:
-      - .env  # Подключаем .env для использования переменных окружения
     ports:
       - "5433:5432"
+
 
   django_app:
     build:
