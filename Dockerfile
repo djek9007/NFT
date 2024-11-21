@@ -8,9 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Создание пользователя для безопасности
-RUN useradd -ms /bin/bash nftuser && \
-    groupadd -g 1000 nftgroup && \
-    usermod -aG nftgroup nftuser
+RUN groupadd -g 1000 nftgroup || true && \
+    useradd -ms /bin/bash -u 1000 -g nftgroup nftuser || true
 
 # Установка зависимостей
 RUN apt update && apt install -y \
