@@ -9,8 +9,8 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /root/projects/nft
 
 # Create directories for static and media files
-RUN mkdir -pc \
-    /root/projects/var/www/static/nft/media && \
+RUN mkdir -p /root/projects/var/www/static/nft/media && \
+    mkdir -p /root/projects/var/www/static/nft/static && \
     chmod -R 755 /root/projects/var/www/static/nft
 
 # Copy dependency list
