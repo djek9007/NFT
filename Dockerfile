@@ -1,43 +1,41 @@
 FROM python:3.10-slim
 
-# Использование bash
+# Use bash for the shell
 SHELL ["/bin/bash", "-c"]
 
-# Настройки окружения
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Создание пользователя для безопасности
+# Create a user for security
 RUN useradd -ms /bin/bash nftuser
 
-# Установка зависимостей
+# Install dependencies
 RUN apt update && apt install -y \
     gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
 
-# Установка pip
+# Upgrade pip
 RUN pip install --upgrade pip
 
-# Установка рабочего каталога
+# Set the working directory
 WORKDIR /root/projects/NFT
 
-# Копирование зависимостей
+# Copy the dependencies file first and install the dependencies
 COPY requirements.txt /root/projects/NFT/
-
-# Установка зависимостей из requirements.txt
 RUN pip install -r requirements.txt
 
-# Копирование всех файлов проекта в контейнер
+# Copy the rest of the project
 COPY . /root/projects/NFT/
 
-# Изменение владельца директорий проекта после копирования
+# Change ownership of the project files to nftuser
 RUN chown -R nftuser:nftuser /root/projects/NFT
 
-# Создание директорий для статики и медиа
+# Create static and media directories
 RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
     chmod -R 755 /root/projects/var/www/nft
 
-# Использование пользователя nftuser
+# Switch to the created user
 USER nftuser
 
-# Запуск Gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "my_project.wsgi:application"]
+# Run migrations, collectstatic, and start Gunicorn
+CMD ["bash", "-c", "python manage.py collectstatic --noinput && python manage.py migrate && gunicorn -b 0.0.0.0:8000 my_project.wsgi:application"]
