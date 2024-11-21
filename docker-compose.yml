@@ -4,9 +4,10 @@ services:
     restart: always
     container_name: nft-dev
     volumes:
-      - .:/root/projects/nft
+      - .:/root/projects/NFT
       - ./static:/root/projects/var/www/nft/static  # Исправлен путь для STATIC_ROOT
       - ./media:/root/projects/var/www/nft/media
+
 
     ports:
       - "8002:8000"

@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # Set the working directory
-WORKDIR /root/projects/nft
+WORKDIR /root/projects/NFT
 
 # Create directories for static and media files
 RUN mkdir -p /root/projects/var/www/nft/media && \
