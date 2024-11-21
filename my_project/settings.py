@@ -1,19 +1,19 @@
-import os 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Загружаем переменные из .env
+load_dotenv()
+
+# Основные настройки
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-s!c_a1cb$96)3(m1_9($90$qvd#jwhqf^8&bzlz^_quo-r')  # Устанавливаем значение по умолчанию
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s!c_a1cb$96)3(m1_9($90$qvd#jwhqf^8&bzlz^_quo-r60+h'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['*',]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Media files
 MEDIA_URL = '/media/'
@@ -67,8 +67,12 @@ WSGI_APPLICATION = 'my_project.wsgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
