@@ -3,6 +3,6 @@ FROM nginx:alpine
 # Копируем конфиг для Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Копируем статичные файлы
-COPY ./static /root/projects/var/www/nft/static
-COPY ./media /root/projects/var/www/nft/media
+# Удалите эти строки, чтобы файлы не копировались в контейнер:
+# COPY ./static /root/projects/var/www/nft/static
+# COPY ./media /root/projects/var/www/nft/media
