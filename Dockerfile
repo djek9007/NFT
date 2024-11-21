@@ -12,19 +12,16 @@ RUN useradd -ms /bin/bash nftuser
 
 # Установка зависимостей
 RUN apt update && apt install -y \
-    gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
-
-# Установка pip
-RUN pip install --upgrade pip
+    gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim && \
+    pip install --upgrade pip
 
 # Установка рабочего каталога
 WORKDIR /root/projects/NFT
 RUN chown -R nftuser:nftuser /root/projects/NFT
 
-
 # Создание директорий для статики и медиа
 RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
-    chmod -R 755 /root/projects/var/www/nft
+    chmod -R 755 /root/projects/var/www/nft/static /root/projects/var/www/nft/media
 
 # Копирование зависимостей
 COPY requirements.txt /root/projects/NFT/
