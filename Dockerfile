@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.10-slim
+FROM python:3.10-slim
 
 # Использование bash
 SHELL ["/bin/bash", "-c"]
@@ -6,14 +6,14 @@ SHELL ["/bin/bash", "-c"]
 # Настройки окружения
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-USER nftuser
+
 # Установка зависимостей
 RUN apt update && apt install -y \
     gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
 
 # Установка pip
 RUN pip install --upgrade pip
-
+USER nftuser
 # Установка рабочего каталога
 WORKDIR /root/projects/NFT
 RUN chown -R nftuser:nftuser /root/projects/NFT
