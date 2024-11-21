@@ -1,39 +1,55 @@
+version: "3.9"
+
 services:
-  nft:
-    build: .
-    restart: always
-    container_name: nft-dev
+  postgres:
+    image: postgres:15
+    container_name: nft_postgres
     volumes:
-      - .:/root/projects/NFT
-      - ./static:/root/projects/var/www/nft/static  # Статика
-      - ./media:/root/projects/var/www/nft/media    # Медиа
-
-
-    ports:
-      - "8002:8000"
+      - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
-    networks:
-      - https
-      - database
-  db:  # Добавляем сервис для базы данных
-    image: postgres:13  # Используем официальный образ PostgreSQL
-    container_name: nft-db
-    restart: always
-    environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    networks:
-      - database
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # Храним данные PostgreSQL
+    ports:
+      - "127.0.0.1:5432:5432"
 
-networks:
-  https:
-    driver: bridge
-  database:
-    driver: bridge
+  django_app:
+    build:
+      context: .
+    container_name: nft_django
+    depends_on:
+      - postgres
+    volumes:
+      - static_volume:/root/projects/var/www/nft/static
+      - media_volume:/root/projects/var/www/nft/media
+    env_file:
+      - .env
+    command: >
+      bash -c "python manage.py collectstatic --noinput &&
+               python manage.py migrate &&
+               gunicorn -b 0.0.0.0:8000 my_project.wsgi:application"
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build:
+      dockerfile: Dockerfile.nginx
+      context: .
+    container_name: nft_nginx
+    depends_on:
+      - django_app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/root/projects/var/www/nft/static
+      - media_volume:/root/projects/var/www/nft/media
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
 
 volumes:
-  postgres_data: {}  # Создаем том для хранения данных PostgreSQL
+  postgres_data:
+  static_volume:
+  media_volume:
+  certs:
+  vhost:
+  html:

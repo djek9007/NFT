@@ -1,31 +1,37 @@
-# Use official Python image
 FROM python:3.10-slim
 
-# Set environment variables
+# Использование bash
+SHELL ["/bin/bash", "-c"]
+
+# Настройки окружения
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set the working directory
+# Установка зависимостей
+RUN apt update && apt install -y \
+    gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
+
+# Установка pip
+RUN pip install --upgrade pip
+
+# Установка рабочего каталога
 WORKDIR /root/projects/NFT
 
-# Create directories for static and media files
-RUN mkdir -p /root/projects/var/www/nft/media && \
-    mkdir -p /root/projects/var/www/nft/static && \
-    chmod -R 777 /root/projects/var/www/nft
+# Создание директорий для статики и медиа
+RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
+    chmod -R 755 /root/projects/var/www/nft
 
+# Копирование зависимостей
+COPY requirements.txt /root/projects/NFT/
+RUN pip install -r requirements.txt
 
-# Copy dependency list
-COPY ./requirements.txt ./requirements.txt
+# Копирование проекта
+COPY . /root/projects/NFT/
 
-# Upgrade pip and install dependencies
-RUN python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# Пользователь для безопасности
+RUN useradd -ms /bin/bash nftuser
+RUN chown -R nftuser:nftuser /root/projects/NFT
+USER nftuser
 
-# Copy the entire project
-COPY . .
-
-# Expose the application port
-EXPOSE 8000
-
-# Default command to run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Запуск Gunicorn
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "my_project.wsgi:application"]
