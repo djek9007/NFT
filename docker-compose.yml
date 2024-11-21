@@ -1,0 +1,36 @@
+# Указываем версию файла Docker Compose
+version: "3.8"
+
+# Определение сервисов, которые будут запущены в контейнерах
+services:
+  # Сервис для разработки проекта
+  nft:
+    build: .  # Собираем Docker-образ из текущей директории (где находится Dockerfile)
+    restart: always  # Контейнер будет автоматически перезапущен, если он остановится
+    container_name: nft-dev  # Указываем имя контейнера
+
+    # Указываем тома, которые монтируются в контейнер
+    volumes:
+      - .:/root/projects/nft  # Код проекта
+      - ./static:/root/projects/var/www/static/nft/static  # Директория для статических файлов
+      - ./media:/root/projects/var/www/static/nft/media  # Директория для медиафайлов
+
+    # Прокидываем порты: порт 8000 внутри контейнера будет доступен на порту 8002 хоста
+    ports:
+      - "8002:8000"
+
+    # Загружаем переменные окружения из файла .env
+    env_file:
+      - .env
+
+    # Подключаем сети
+    networks:
+      - https
+      - database
+
+# Определение сетей
+networks:
+  https:
+    driver: bridge
+  database:
+    driver: bridge
