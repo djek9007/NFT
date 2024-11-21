@@ -10,9 +10,10 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
     ports:
       - "5433:5432"
-
 
   django_app:
     build:
@@ -21,14 +22,10 @@ services:
     depends_on:
       - postgres
     volumes:
-      - static_volume:/root/projects/var/www/nft/static
-      - media_volume:/root/projects/var/www/nft/media
+      - ./static:/root/projects/var/www/nft/static
+      - ./media:/root/projects/var/www/nft/media
     env_file:
-      - .env  # Подключаем .env для использования переменных окружения
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
-      interval: 10s
-      retries: 5
+      - .env
     command: >
       bash -c "python manage.py collectstatic --noinput &&
                python manage.py migrate &&
@@ -47,16 +44,14 @@ services:
       - "90:80"
       - "444:443"
     volumes:
-      - static_volume:/root/projects/var/www/nft/static
-      - media_volume:/root/projects/var/www/nft/media
+      - ./static:/root/projects/var/www/nft/static
+      - ./media:/root/projects/var/www/nft/media
       - certs:/etc/nginx/certs
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
 
 volumes:
   postgres_data:
-  static_volume:
-  media_volume:
   certs:
   vhost:
   html:
