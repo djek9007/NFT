@@ -5,8 +5,9 @@ services:
     container_name: nft-dev
     volumes:
       - .:/root/projects/nft
-      - ./static:/root/projects/var/www/static/nft/static
-      - ./media:/root/projects/var/www/static/nft/media
+      - ./static:/root/projects/var/www/nft/static  # Исправлен путь для STATIC_ROOT
+      - ./media:/root/projects/var/www/nft/media
+
     ports:
       - "8002:8000"
     env_file:
