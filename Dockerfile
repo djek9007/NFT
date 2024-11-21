@@ -6,14 +6,17 @@ SHELL ["/bin/bash", "-c"]
 # Настройки окружения
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
+# Пользователь для безопасности
+RUN useradd -ms /bin/bash nftuser
+RUN chown -R nftuser:nftuser /root/projects/NFT
+USER nftuser
 # Установка зависимостей
 RUN apt update && apt install -y \
     gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
 
 # Установка pip
 RUN pip install --upgrade pip
-USER nftuser
+
 # Установка рабочего каталога
 WORKDIR /root/projects/NFT
 RUN chown -R nftuser:nftuser /root/projects/NFT
@@ -28,9 +31,6 @@ RUN pip install -r requirements.txt
 # Копирование проекта
 COPY . /root/projects/NFT/
 
-# Пользователь для безопасности
-RUN useradd -ms /bin/bash nftuser
-RUN chown -R nftuser:nftuser /root/projects/NFT
 
 
 # Запуск Gunicorn
