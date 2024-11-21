@@ -21,6 +21,7 @@ COPY . /app/
 # Ожидаем прав на директории
 RUN mkdir -p /app/static /app/media && \
     chmod -R 755 /app/static /app/media
+    chmod -R 775 /root/projects/var/www/nft/static
 
 # Запуск Gunicorn
 CMD ["gunicorn", "-b", "0.0.0.0:8000", "my_project.wsgi:application"]
