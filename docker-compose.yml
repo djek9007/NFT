@@ -7,7 +7,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
-      - .env
+      - .env  # Подключаем .env для использования переменных окружения
     ports:
       - "5433:5432"
 
@@ -21,7 +21,11 @@ services:
       - static_volume:/root/projects/var/www/nft/static
       - media_volume:/root/projects/var/www/nft/media
     env_file:
-      - .env
+      - .env  # Подключаем .env для использования переменных окружения
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 10s
+      retries: 5
     command: >
       bash -c "python manage.py collectstatic --noinput &&
                python manage.py migrate &&
