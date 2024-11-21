@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM docker.io/library/python:3.10-slim
 
 # Использование bash
 SHELL ["/bin/bash", "-c"]
@@ -6,7 +6,7 @@ SHELL ["/bin/bash", "-c"]
 # Настройки окружения
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
+USER nftuser
 # Установка зависимостей
 RUN apt update && apt install -y \
     gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
@@ -31,7 +31,7 @@ COPY . /root/projects/NFT/
 # Пользователь для безопасности
 RUN useradd -ms /bin/bash nftuser
 RUN chown -R nftuser:nftuser /root/projects/NFT
-USER nftuser
+
 
 # Запуск Gunicorn
 CMD ["gunicorn", "-b", "0.0.0.0:8000", "my_project.wsgi:application"]
