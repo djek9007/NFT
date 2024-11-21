@@ -1,65 +1,21 @@
-version: "3.9"
-
 services:
-  postgres:
-    image: postgres:15
-    container_name: nft_postgres
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+  django_gunicorn:
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-    networks:
-      - nft_network
-
-  django:
+      - static:/static
+    env_file:
+      - .env
     build:
       context: .
-    container_name: nft_django
-    depends_on:
-      - postgres
-    environment:
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=postgres
-      - DB_PORT=5432
-    volumes:
-      - .:/app  # Монтируем текущую директорию
-      - ./static:/app/static  # Статические файлы
-      - ./media:/app/media    # Медиа файлы
-    command: >
-      bash -c "python manage.py collectstatic --noinput &&
-               python manage.py migrate &&
-               gunicorn -b 0.0.0.0:8000 my_project.wsgi:application"
     ports:
-      - "8090:8000"  # Прокси на порту 8090
-    networks:
-      - nft_network
-
+      - "8780:8000"
   nginx:
-    build:
-      dockerfile: Dockerfile.nginx
-      context: .
-    container_name: nft_nginx
-    depends_on:
-      - django
-    ports:
-      - "8080:80"
-      - "8443:443"
+    build: ./nginx
     volumes:
-      - ./static:/app/static  # Монтируем статические файлы
-      - ./media:/app/media    # Монтируем медиа файлы
-      - ./nginx.conf:/etc/nginx/nginx.conf  # Конфиг Nginx
-    networks:
-      - nft_network
+      - static:/static
+    ports:
+      - "80:80"
+    depends_on:
+      - django_gunicorn
 
 volumes:
-  postgres_data: {}
-
-networks:
-  nft_network:
-    driver: bridge
+  static:
