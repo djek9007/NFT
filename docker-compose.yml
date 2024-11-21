@@ -26,9 +26,9 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
     volumes:
-      - .:/root/projects/NFT  # монтируем текущую директорию на хосте в контейнер
-      - /root/projects/var/www/nft/static  # монтируем директорию для статических файлов
-      - /root/projects/var/www/nft/media  # монтируем директорию для медиа файлов
+      - .:/app  # монтируем текущую директорию на хосте в контейнер
+      - ./static:/app/static  # монтируем статические файлы на хост
+      - ./media:/app/media  # монтируем медиа файлы на хост
     command: >
       bash -c "python manage.py collectstatic --noinput &&
                python manage.py migrate &&
@@ -47,9 +47,9 @@ services:
       - "8080:80"
       - "8443:443"
     volumes:
-      - /root/projects/var/www/nft/static:/app/static  # монтируем статику
-      - /root/projects/var/www/nft/media:/app/media  # монтируем медиа файлы
-      - ./nginx.conf:/etc/nginx/nginx.conf  # добавляем конфиг Nginx (если нужно)
+      - ./static:/app/static  # монтируем статические файлы
+      - ./media:/app/media  # монтируем медиа файлы
+      - ./nginx.conf:/etc/nginx/nginx.conf  # конфиг Nginx
 
 volumes:
   postgres_data:

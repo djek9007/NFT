@@ -1,27 +1,25 @@
-# Используем Python 3.10 Slim
+# Dockerfile
+
+# Использование базового образа
 FROM python:3.10-slim
 
-# Устанавливаем зависимости
+# Установка зависимостей
 RUN apt update && apt install -y \
     gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext vim
 
-# Устанавливаем pip
+# Установка pip
 RUN pip install --upgrade pip
 
-# Настроим рабочую директорию
+# Установка рабочей директории
 WORKDIR /app
 
-# Копируем requirements.txt и устанавливаем зависимости
+# Копирование зависимостей
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-# Копируем весь проект в контейнер
+# Копирование кода проекта
 COPY . /app/
 
-# Ожидаем прав на директории
+# Создание директорий для статики и медиа
 RUN mkdir -p /app/static /app/media && \
-    chmod -R 755 /app/static /app/media && \
-    chmod -R 775 /root/projects/var/www/nft/static
-
-# Запуск Gunicorn
-CMD ["gunicorn", "-b", "0.0.0.0:8000", "my_project.wsgi:application"]
+    chmod -R 755 /app/static /app/media
