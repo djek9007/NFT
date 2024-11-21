@@ -1,36 +1,37 @@
-# Указываем версию файла Docker Compose
-version: "3.8"
-
-# Определение сервисов, которые будут запущены в контейнерах
 services:
-  # Сервис для разработки проекта
   nft:
-    build: .  # Собираем Docker-образ из текущей директории (где находится Dockerfile)
-    restart: always  # Контейнер будет автоматически перезапущен, если он остановится
-    container_name: nft-dev  # Указываем имя контейнера
-
-    # Указываем тома, которые монтируются в контейнер
+    build: .
+    restart: always
+    container_name: nft-dev
     volumes:
-      - .:/root/projects/nft  # Код проекта
-      - ./static:/root/projects/var/www/static/nft/static  # Директория для статических файлов
-      - ./media:/root/projects/var/www/static/nft/media  # Директория для медиафайлов
-
-    # Прокидываем порты: порт 8000 внутри контейнера будет доступен на порту 8002 хоста
+      - .:/root/projects/nft
+      - ./static:/root/projects/var/www/static/nft/static
+      - ./media:/root/projects/var/www/static/nft/media
     ports:
       - "8002:8000"
-
-    # Загружаем переменные окружения из файла .env
     env_file:
       - .env
-
-    # Подключаем сети
     networks:
       - https
       - database
+  db:  # Добавляем сервис для базы данных
+    image: postgres:13  # Используем официальный образ PostgreSQL
+    container_name: nft-db
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Храним данные PostgreSQL
 
-# Определение сетей
 networks:
   https:
     driver: bridge
   database:
     driver: bridge
+
+volumes:
+  postgres_data: {}  # Создаем том для хранения данных PostgreSQL
