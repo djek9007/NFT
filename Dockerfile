@@ -7,8 +7,10 @@ SHELL ["/bin/bash", "-c"]
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Пользователь для безопасности
-RUN useradd -ms /bin/bash nftuser
+# Создание пользователя для безопасности
+RUN useradd -ms /bin/bash nftuser && \
+    groupadd -g 1000 nftgroup && \
+    usermod -aG nftgroup nftuser
 
 # Установка зависимостей
 RUN apt update && apt install -y \
@@ -17,21 +19,23 @@ RUN apt update && apt install -y \
 
 # Установка рабочего каталога
 WORKDIR /root/projects/NFT
-RUN chown -R nftuser:nftuser /root/projects/NFT
-
-# Создание директорий для статики и медиа
-RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
-    chmod -R 755 /root/projects/var/www/nft/static /root/projects/var/www/nft/media
 
 # Копирование зависимостей
 COPY requirements.txt /root/projects/NFT/
 RUN pip install -r requirements.txt
 
+# Создание директорий для статики и медиа с правами
+RUN mkdir -p /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
+    chown -R nftuser:nftgroup /root/projects/var/www/nft/static /root/projects/var/www/nft/media && \
+    chmod -R 775 /root/projects/var/www/nft/static /root/projects/var/www/nft/media
+
 # Копирование проекта
 COPY . /root/projects/NFT/
 
-# Меняем владельца на пользователя nftuser
-RUN chown -R nftuser:nftuser /root/projects/NFT
+# Изменение владельца на пользователя nftuser
+RUN chown -R nftuser:nftgroup /root/projects/NFT
+
+# Переключение на пользователя nftuser для безопасности
 USER nftuser
 
 # Запуск Gunicorn
