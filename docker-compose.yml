@@ -37,8 +37,8 @@ services:
     depends_on:
       - django_app
     ports:
-      - "80:80"
-      - "443:443"
+      - "90:80"
+      - "444:443"
     volumes:
       - static_volume:/root/projects/var/www/nft/static
       - media_volume:/root/projects/var/www/nft/media
