@@ -20,7 +20,7 @@ COPY . /app/
 
 # Ожидаем прав на директории
 RUN mkdir -p /app/static /app/media && \
-    chmod -R 755 /app/static /app/media
+    chmod -R 755 /app/static /app/media && \
     chmod -R 775 /root/projects/var/www/nft/static
 
 # Запуск Gunicorn
