@@ -1,8 +1,12 @@
+# Используем официальный образ Nginx
 FROM nginx:alpine
 
-# Копируем конфиг для Nginx
+# Копируем конфиг Nginx в контейнер
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Удалите эти строки, чтобы файлы не копировались в контейнер:
-# COPY ./static /root/projects/var/www/nft/static
-# COPY ./media /root/projects/var/www/nft/media
+# Копируем статичные и медиа-файлы
+COPY ./static /app/static
+COPY ./media /app/media
+
+# Открываем порты
+EXPOSE 80 443

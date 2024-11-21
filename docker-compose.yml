@@ -10,29 +10,30 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    env_file:
-      - .env
     ports:
       - "5433:5432"
 
-  django_app:
+  django:
     build:
       context: .
     container_name: nft_django
     depends_on:
       - postgres
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - DB_PORT=5432
     volumes:
-      - ./static:/root/projects/var/www/nft/static
-      - ./media:/root/projects/var/www/nft/media
-    env_file:
-      - .env
+      - ./static:/app/static
+      - ./media:/app/media
     command: >
       bash -c "python manage.py collectstatic --noinput &&
                python manage.py migrate &&
                gunicorn -b 0.0.0.0:8000 my_project.wsgi:application"
     ports:
-      - "8080:8000"
-
+      - "8000:8000"
 
   nginx:
     build:
@@ -40,19 +41,13 @@ services:
       context: .
     container_name: nft_nginx
     depends_on:
-      - django_app
+      - django
     ports:
-      - "90:80"
-      - "444:443"
+      - "80:80"
+      - "443:443"
     volumes:
-      - ./static:/root/projects/var/www/nft/static
-      - ./media:/root/projects/var/www/nft/media
-      - certs:/etc/nginx/certs
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      - ./static:/app/static
+      - ./media:/app/media
 
 volumes:
   postgres_data:
-  certs:
-  vhost:
-  html:
