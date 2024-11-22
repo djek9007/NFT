@@ -4,8 +4,9 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
-      - static_volume:/app/staticfiles
-      - media_volume:/app/media
+      - /root/var/www/nft/static:/app/staticfiles
+      - /root/var/www/nft/media:/app/media
+      - /root/var/www/nft/logs:/root/var/www/nft/logs
     ports:
       - "8001:8000"
     environment:
