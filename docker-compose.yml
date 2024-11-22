@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: nft_web
-    command: gunicorn NFT.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn my_project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./static:/root/projects/var/www/nft/static
       - ./media:/root/projects/var/www/nft/media
@@ -14,6 +14,8 @@ services:
       - "8090:8000"
     depends_on:
       - db
+    environment:
+      - WSGI_MODULE=${WSGI_MODULE}
 
   db:
     image: postgres:15

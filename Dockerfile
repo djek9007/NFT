@@ -9,4 +9,5 @@ COPY . .
 
 RUN python manage.py collectstatic --no-input
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "NFT.wsgi:application"]
+
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:8000 $WSGI_MODULE:application"]
