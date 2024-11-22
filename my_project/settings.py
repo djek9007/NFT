@@ -121,7 +121,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/root/var/www/nft/media'
 
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -129,7 +128,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/root/var/www/nft/logs/django.log',
+            'filename': '/root/var/www/nft/logs/django.log',  # Указываем путь к логам
         },
     },
     'loggers': {
