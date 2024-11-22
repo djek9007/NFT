@@ -6,8 +6,7 @@ services:
       context: .
     container_name: nft_web
     command: >
-      bash -c "python manage.py collectstatic --noinput &&
-               gunicorn my_project.wsgi:application --bind 0.0.0.0:8000"
+      bash -c "gunicorn my_project.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./static:/root/projects/var/www/nft/static
       - ./media:/root/projects/var/www/nft/media
