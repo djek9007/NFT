@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:15
@@ -14,8 +16,8 @@ services:
     build: .
     command: gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application
     volumes:
-      - /root/var/www/nft/static:/root/var/www/nft/static
-      - /root/var/www/nft/media:/root/var/www/nft/media
+      - static:/root/var/www/nft/static
+      - media:/root/var/www/nft/media
       - /root/var/www/nft/logs:/root/var/www/nft/logs
     ports:
       - "8082:8000"
@@ -35,6 +37,8 @@ services:
     volumes:
       - nginx_data:/data
       - nginx_letsencrypt:/etc/letsencrypt
+      - static:/root/var/www/nft/static
+      - media:/root/var/www/nft/media
     networks:
       - nft_network
 
@@ -42,6 +46,9 @@ volumes:
   postgres_data:
   nginx_data:
   nginx_letsencrypt:
+  static:
+  media:
 
 networks:
   nft_network:
+    driver: bridge
