@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
       - /root/var/www/nft/static:/app/staticfiles
-      - media_volume:/app/media
+      - /root/var/www/nft/media:/app/media
       - /root/var/www/nft/logs:/root/var/www/nft/logs
     ports:
       - "8001:8000"
