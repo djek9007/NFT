@@ -125,7 +125,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/root/projects/var/www/nft/logs/django.log',
+            'filename': '/root/var/www/nft/logs/django.log',
         },
     },
     'loggers': {

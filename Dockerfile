@@ -11,16 +11,12 @@ COPY . /app
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Создаем директории для статических, медиа файлов и логов, устанавливаем права доступа
-RUN mkdir -p /app/static /app/media /root/projects/var/www/nft/logs
-RUN chmod -R 755 /app/static /app/media /root/projects/var/www/nft/logs
-
-# Собираем статические файлы
-#RUN python manage.py collectstatic --noinput
+# Создаем родительскую папку и вложенные директории
+RUN mkdir -p /root/var/www/nft/static /root/var/www/nft/media /root/var/www/nft/logs
+RUN chmod -R 755 /root/var/www/nft
 
 # Устанавливаем переменные окружения
 ENV DJANGO_SETTINGS_MODULE=my_project.settings
 
 # Запускаем сервер
-CMD [command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application"
-]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "my_project.wsgi:application"]
