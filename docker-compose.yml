@@ -1,23 +1,6 @@
 version: '3.8'
 
 services:
-  pgadmin:
-    image: dpage/pgadmin4:6.12
-    container_name: pgadmin4
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_DEFAULT_PASSWORD}
-      PGADMIN_LISTEN_PORT: ${PGADMIN_PORT}
-      UPLOAD_LIMIT: ${UPLOAD_LIMIT}
-    ports:
-      - "${PGADMIN_PORT}:8765"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    networks:
-      - database_network
-      - https_network
-
   web:
     build: .
     command: gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application
@@ -28,7 +11,7 @@ services:
     ports:
       - "8082:8000"
     depends_on:
-      - pgadmin
+      - db
     env_file:
       - .env
     networks:
@@ -52,11 +35,10 @@ services:
       - https_network
 
 volumes:
-  pgadmin_data:
-  data:
-  letsencrypt:
   static:
   media:
+  data:
+  letsencrypt:
 
 networks:
   database_network:
