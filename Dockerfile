@@ -1,5 +1,5 @@
 # Используем официальный образ Python
-FROM python:3.10
+FROM python:3."қ"
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -9,6 +9,13 @@ COPY . /app
 
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Создаем директории для статики и медиа и задаем разрешения
+RUN mkdir -p /app/staticfiles /app/media && \
+    chmod -R 755 /app/staticfiles /app/media
+
+# Собираем статические файлы
+RUN python manage.py collectstatic --noinput
 
 # Открываем порт для приложения
 EXPOSE 8000
