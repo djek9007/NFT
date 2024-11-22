@@ -1,4 +1,13 @@
 services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -18,5 +27,6 @@ services:
       - db
 
 volumes:
+  postgres_data:
   static_volume:
   media_volume:
