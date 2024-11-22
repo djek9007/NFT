@@ -1,8 +1,13 @@
+version: "3.9"
+
 services:
   web:
-    build: .
+    build:
+      context: .
     container_name: nft_web
-    command: gunicorn my_project.wsgi:application --bind 0.0.0.0:8000
+    command: >
+      bash -c "python manage.py collectstatic --noinput &&
+               gunicorn my_project.wsgi:application --bind 0.0.0.0:8000"
     volumes:
       - ./static:/root/projects/var/www/nft/static
       - ./media:/root/projects/var/www/nft/media
@@ -12,6 +17,8 @@ services:
       - "8090:8000"
     depends_on:
       - db
+    networks:
+      - nft_network
     environment:
       - WSGI_MODULE=${WSGI_MODULE}
 
@@ -24,6 +31,8 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nft_network
 
   nginx:
     image: nginx:latest
@@ -36,6 +45,12 @@ services:
       - "8080:80"
     depends_on:
       - web
+    networks:
+      - nft_network
 
 volumes:
   postgres_data:
+
+networks:
+  nft_network:
+    driver: bridge
