@@ -17,7 +17,7 @@ CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 
 # Media files
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.getenv('MEDIA_ROOT', '/root/projects/var/www/nft/media/')  # Финальная директория для медиа
+MEDIA_ROOT = os.getenv('MEDIA_ROOT')  # Финальная директория для медиа
 
 GENERATED_VCARDS_DIR = os.path.join(BASE_DIR, 'static', 'generated_vcards')
 
@@ -101,7 +101,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
-STATIC_ROOT = os.getenv('STATIC_ROOT', '/root/projects/var/www/nft/static/')
+STATIC_ROOT = os.getenv('STATIC_ROOT',)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
