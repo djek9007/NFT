@@ -46,7 +46,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env  # Подключаем ваш .env файл для проекта Django
+      - .env
     networks:
       - database_network
       - https_network
