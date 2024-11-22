@@ -8,15 +8,10 @@ WORKDIR /app
 COPY . /app
 
 # Устанавливаем зависимости
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Создаем родительскую папку и вложенные директории
-RUN mkdir -p /root/var/www/nft/static /root/var/www/nft/media /root/var/www/nft/logs
-RUN chmod -R 755 /root/var/www/nft
-
-# Устанавливаем переменные окружения
-ENV DJANGO_SETTINGS_MODULE=my_project.settings
+# Открываем порт для приложения
+EXPOSE 8000
 
 # Запускаем сервер
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "my_project.wsgi:application"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

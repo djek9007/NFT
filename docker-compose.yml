@@ -1,28 +1,22 @@
 services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - /root/var/www/nft/static:/root/var/www/nft/static
-      - /root/var/www/nft/media:/root/var/www/nft/media
-      - /root/var/www/nft/logs:/root/var/www/nft/logs  # Добавляем монтирование для логов
-
+      - .:/app
     ports:
-      - "8082:8000"
-    env_file:
-      - .env
-    networks:
-      - database_network
-      - https_network
+      - "8000:8000"
+    depends_on:
+      - db
 
 volumes:
-  static:
-  media:
-
-networks:
-  database_network:
-    name: ${DATABASE_NETWORK}
-    external: true
-  https_network:
-    name: ${HTTPS_NETWORK}
-    external: true
+  postgres_data:
