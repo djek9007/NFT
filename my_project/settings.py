@@ -110,7 +110,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login settings
 LOGIN_REDIRECT_URL = '/profile/'  # Страница, на которую будет перенаправляться пользователь после входа
 LOGIN_URL = '/login/'             # URL для страницы входа
-LOGOUT_REDIRECT_URL = '/login/'    # URL для перенаправления после выхода
+LOGOUT_REDIRECT_URL = '/logout/'    # URL для перенаправления после выхода
 
 # Static files
 STATIC_URL = '/static/'

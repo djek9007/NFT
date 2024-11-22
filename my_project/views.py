@@ -1,4 +1,6 @@
 from django.shortcuts import redirect
 
 def redirect_to_login(request):
-    return redirect('login')  # Перенаправляем на имя маршрута для входа
+    if request.user.is_authenticated:
+        return redirect('profile', user_id=request.user.id)
+    return redirect('login')
