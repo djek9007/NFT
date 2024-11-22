@@ -11,9 +11,9 @@ COPY . /app
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Создаем директории для статических и медиа файлов и устанавливаем права доступа
-RUN mkdir -p /app/static /app/media
-RUN chmod -R 755 /app/static /app/media
+# Создаем директории для статических, медиа файлов и логов, устанавливаем права доступа
+RUN mkdir -p /app/static /app/media /root/projects/var/www/nft/logs
+RUN chmod -R 755 /app/static /app/media /root/projects/var/www/nft/logs
 
 # Устанавливаем переменные окружения
 ENV DJANGO_SETTINGS_MODULE=my_project.settings
