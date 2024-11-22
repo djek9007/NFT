@@ -16,10 +16,11 @@ RUN mkdir -p /app/static /app/media /root/projects/var/www/nft/logs
 RUN chmod -R 755 /app/static /app/media /root/projects/var/www/nft/logs
 
 # Собираем статические файлы
-RUN python manage.py collectstatic --noinput
+#RUN python manage.py collectstatic --noinput
 
 # Устанавливаем переменные окружения
 ENV DJANGO_SETTINGS_MODULE=my_project.settings
 
 # Запускаем сервер
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "my_project.wsgi:application"]
+CMD [command: bash -c "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application"
+]
