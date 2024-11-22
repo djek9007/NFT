@@ -113,10 +113,11 @@ LOGIN_URL = '/login/'             # URL для страницы входа
 LOGOUT_REDIRECT_URL = '/login/'    # URL для перенаправления после выхода
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/root/projects/var/www/nft/static'
+STATIC_ROOT = '/root/var/www/nft/static'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/root/projects/var/www/nft/media'
+MEDIA_ROOT = '/root/var/www/nft/media'
+
 
 LOGGING = {
     'version': 1,
