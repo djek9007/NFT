@@ -1,18 +1,20 @@
-FROM python:3.10
+FROM python:3.10-slim
 
+# Установка необходимых пакетов
+RUN apt-get update && apt-get install -y gcc libpq-dev
+
+# Устанавливаем рабочую директорию
 WORKDIR /app
 
-COPY requirements.txt .
+# Копируем зависимости
+COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Создание директорий для статики и медиа файлов
-RUN mkdir -p /root/projects/var/www/nft/static/admin && \
-    mkdir -p /root/projects/var/www/nft/media && \
-    touch /root/projects/var/www/nft/static/admin/index.html
-
+# Копируем проект
 COPY . .
 
-# Собираем статику
-RUN python manage.py collectstatic --no-input
+# Создаём папки для статики и медиа
+RUN mkdir -p /app/static /app/media
 
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:8000 $WSGI_MODULE:application"]
+# Команда по умолчанию
+CMD ["gunicorn", "my_project.wsgi:application", "--bind", "0.0.0.0:8000"]
