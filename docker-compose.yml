@@ -15,6 +15,7 @@ services:
       - .:/app
       - /root/var/www/nft/static:/app/static
       - /root/var/www/nft/media:/app/media
+      - /root/var/www/nft/logs:/root/projects/var/www/nft/logs
     ports:
       - "8082:8000"
     depends_on:
