@@ -7,6 +7,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nft_network
 
   web:
     build: .
@@ -15,14 +17,31 @@ services:
       - /root/var/www/nft/static:/root/var/www/nft/static
       - /root/var/www/nft/media:/root/var/www/nft/media
       - /root/var/www/nft/logs:/root/var/www/nft/logs
-
-
     ports:
       - "8082:8000"
     depends_on:
       - db
     env_file:
       - .env
+    networks:
+      - nft_network
+
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81"
+    volumes:
+      - nginx_data:/data
+      - nginx_letsencrypt:/etc/letsencrypt
+    networks:
+      - nft_network
 
 volumes:
   postgres_data:
+  nginx_data:
+  nginx_letsencrypt:
+
+networks:
+  nft_network:
