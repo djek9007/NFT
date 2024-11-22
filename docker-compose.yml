@@ -50,5 +50,5 @@ volumes:
   media:
 
 networks:
-  nft_network:
+  nft_nft_network:
     driver: bridge
