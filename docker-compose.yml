@@ -2,15 +2,37 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:15
+    image: postgres:13-alpine
+    container_name: postgres
+    restart: always
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DEFAULT_DB}
+      POSTGRES_USER: ${POSTGRES_DEFAULT_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DEFAULT_PASSWORD}
+      PGDATA: "/data/postgres"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/data/postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
     networks:
-      - nft_network
+      - database_network
+
+  pgadmin:
+    image: dpage/pgadmin4:6.12
+    container_name: pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_PORT}
+      UPLOAD_LIMIT: ${UPLOAD_LIMIT}
+    ports:
+      - "${PGADMIN_PORT}:8765"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - database_network
+      - https_network
 
   web:
     build: .
@@ -24,31 +46,39 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - .env  # Подключаем ваш .env файл для проекта Django
     networks:
-      - nft_network
+      - database_network
+      - https_network
 
-  nginx-proxy-manager:
+  nginx_proxy_manager:
     image: jc21/nginx-proxy-manager:latest
+    container_name: nginx_proxy_manager
+    restart: unless-stopped
     ports:
-      - "8080:80"
-      - "8443:443"
-      - "8181:81"
+      - "80:80"
+      - "${PORT}:81"
+      - "443:443"
     volumes:
-      - nginx_data:/data
-      - nginx_letsencrypt:/etc/letsencrypt
+      - data:/data
+      - letsencrypt:/etc/letsencrypt
       - static:/root/var/www/nft/static
       - media:/root/var/www/nft/media
     networks:
-      - nft_network
+      - https_network
 
 volumes:
   postgres_data:
-  nginx_data:
-  nginx_letsencrypt:
+  pgadmin_data:
+  data:
+  letsencrypt:
   static:
   media:
 
 networks:
-  nft_network:
-    driver: bridge
+  database_network:
+    name: ${DATABASE_NETWORK}
+    external: true
+  https_network:
+    name: ${HTTPS_NETWORK}
+    external: true
