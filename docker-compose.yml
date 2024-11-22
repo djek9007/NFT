@@ -16,7 +16,6 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
     networks:
       - database_network
-      - https_network
 
 volumes:
   static_volume:
