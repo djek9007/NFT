@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - nft_nft_network  # Заменить на правильное имя сети
+      - nft_network
 
   web:
     build: .
@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     networks:
-      - nft_nft_network  # Заменить на правильное имя сети
+      - nft_network
 
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
@@ -40,7 +40,7 @@ services:
       - static:/root/var/www/nft/static
       - media:/root/var/www/nft/media
     networks:
-      - nft_nft_network  # Заменить на правильное имя сети
+      - nft_network
 
 volumes:
   postgres_data:
@@ -50,5 +50,5 @@ volumes:
   media:
 
 networks:
-  nft_nft_network:  # Сеть правильно указана здесь
+  nft_network:
     driver: bridge
