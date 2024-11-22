@@ -16,7 +16,7 @@ services:
       - static_volume:/app/staticfiles
       - media_volume:/app/media
     ports:
-      - "8000:8000"
+      - "8001:8000"  # Изменено на 8001
     depends_on:
       - db
 
