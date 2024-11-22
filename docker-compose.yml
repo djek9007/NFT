@@ -35,7 +35,7 @@ services:
       - ./static:/root/projects/var/www/nft/static
       - ./media:/root/projects/var/www/nft/media
     ports:
-      - "90:80"
+      - "8080:80"
     depends_on:
       - web
 
