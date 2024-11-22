@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.static_origin',
+    'django.contrib.static',
     'accounts',  # ваше приложение с профилями
 ]
 
