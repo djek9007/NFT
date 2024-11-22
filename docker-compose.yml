@@ -1,11 +1,14 @@
+version: '3.8'
+
 services:
   web:
     build: .
     command: gunicorn --bind 0.0.0.0:8000 my_project.wsgi:application
     volumes:
-      - .:/app
-      - static_volume:/app/static
-      - media_volume:/app/media
+      - /root/projects/NFT:/root/projects/NFT
+      - static_volume:/root/projects/var/www/nft/static
+      - media_volume:/root/projects/var/www/nft/media
+      - log_volume:/root/projects/var/www/nft/logs
     ports:
       - "8080:8000"
     env_file:
@@ -26,3 +29,4 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:
+  log_volume:

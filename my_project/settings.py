@@ -15,9 +15,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.getenv('MEDIA_ROOT','/root/projects/var/www/nft/media/')  # Финальная директория для медиа
+
 
 GENERATED_VCARDS_DIR = os.path.join(BASE_DIR, 'static', 'generated_vcards')
 
@@ -99,10 +97,8 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
-STATIC_ROOT = os.getenv('STATIC_ROOT', '/root/projects/var/www/nft/static/')
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -112,6 +108,11 @@ LOGIN_REDIRECT_URL = '/profile/'  # Страница, на которую буд
 LOGIN_URL = '/login/'             # URL для страницы входа
 LOGOUT_REDIRECT_URL = '/login/'    # URL для перенаправления после выхода
 
+STATIC_URL = '/static/'
+STATIC_ROOT = '/root/projects/var/www/nft/static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/root/projects/var/www/nft/media'
 
 LOGGING = {
     'version': 1,
@@ -120,7 +121,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/django.log'),
+            'filename': '/root/projects/var/www/nft/logs/django.log',
         },
     },
     'loggers': {
