@@ -15,10 +15,15 @@ services:
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
     networks:
-      - my_network
+      - database_network
+      - https
 
 networks:
-  my_network:
+  database_network:
+    name: ${DATABASE_NETWORK}
+    external: true
+  https:
+    name: ${HTTPS_NETWORK}
     external: true
 
 volumes:
