@@ -10,9 +10,9 @@ COPY . /app
 # Устанавливаем зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Создаем директории для статики и медиа и задаем разрешения
-RUN mkdir -p /app/staticfiles /app/media && \
-    chmod -R 755 /app/staticfiles /app/media
+# Создаем директории для статики, медиа и логов, и задаем разрешения
+RUN mkdir -p /app/staticfiles /app/media /root/var/www/nft/logs && \
+    chmod -R 755 /app/staticfiles /app/media /root/var/www/nft/logs
 
 # Собираем статические файлы
 RUN python manage.py collectstatic --noinput
