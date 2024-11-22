@@ -1,22 +1,6 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:13-alpine
-    container_name: postgres
-    restart: always
-    environment:
-      POSTGRES_DB: ${POSTGRES_DEFAULT_DB}
-      POSTGRES_USER: ${POSTGRES_DEFAULT_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_DEFAULT_PASSWORD}
-      PGDATA: "/data/postgres"
-    volumes:
-      - postgres_data:/data/postgres
-    ports:
-      - "${POSTGRES_PORT}:5432"
-    networks:
-      - database_network
-
   pgadmin:
     image: dpage/pgadmin4:6.12
     container_name: pgadmin4
@@ -44,7 +28,7 @@ services:
     ports:
       - "8082:8000"
     depends_on:
-      - db
+      - pgadmin
     env_file:
       - .env
     networks:
@@ -68,7 +52,6 @@ services:
       - https_network
 
 volumes:
-  postgres_data:
   pgadmin_data:
   data:
   letsencrypt:
