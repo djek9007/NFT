@@ -1,12 +1,19 @@
+version: '3.8'
+
 services:
   web:
-    build: .
-    command: gunicorn my_project.wsgi:application --bind 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             gunicorn my_project.wsgi:application --bind 0.0.0.0:8000"
     volumes:
-      - .:/app
       - /root/var/www/nft/static:/app/staticfiles
       - /root/var/www/nft/media:/app/media
-      - /root/var/www/nft/logs:/root/var/www/nft/logs
+      - /root/var/www/nft/logs:/app/logs
+    ports:
+      - "8001:8000"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -23,14 +30,14 @@ services:
       dockerfile: Dockerfile.nginx
     ports:
       - "8081:80"
+    volumes:
+      - /root/var/www/nft/static:/app/staticfiles
+      - /root/var/www/nft/media:/app/media
+    networks:
+      - https
+      - database_network
     depends_on:
       - web
-    volumes:
-      - /root/var/www/nft/static:/root/var/www/nft/static
-      - /root/var/www/nft/media:/root/var/www/nft/media
-    networks:
-      - database_network
-      - https
 
 networks:
   database_network:
